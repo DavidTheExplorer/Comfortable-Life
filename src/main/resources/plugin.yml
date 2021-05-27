@@ -1,0 +1,6 @@
+name: ComfortableLife
+main: dte.comfortablelife.ComfortableLife
+version: ${project.version}
+description: Disables wandering villagers and storms, useful for testing servers. 
+api-version: 1.13
+depend: [helper]
