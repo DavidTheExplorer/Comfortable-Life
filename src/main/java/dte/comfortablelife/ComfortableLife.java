@@ -1,10 +1,11 @@
 package dte.comfortablelife;
 
 import static dte.comfortablelife.utils.ChatColorUtils.colorize;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.bukkit.entity.EntityType.LLAMA;
 import static org.bukkit.entity.EntityType.PHANTOM;
 import static org.bukkit.entity.EntityType.WANDERING_TRADER;
+
+import java.util.concurrent.TimeUnit;
 
 import dte.comfortablelife.config.MainConfig;
 import dte.comfortablelife.entity.EntityService;
@@ -16,8 +17,8 @@ import me.lucko.helper.plugin.ExtendedJavaPlugin;
 
 public class ComfortableLife extends ExtendedJavaPlugin
 {
-	private StormService stormService;
 	private EntityService annoyingMobsService;
+	private StormService stormService;
 	
 	private MainConfig mainConfig;
 	
@@ -29,31 +30,32 @@ public class ComfortableLife extends ExtendedJavaPlugin
 		INSTANCE = this;
 		
 		this.mainConfig = new MainConfig();
-		setupServices();
+		
+		//setup annoying mobs service
+		this.annoyingMobsService = new SimpleEntityService(WANDERING_TRADER, LLAMA, PHANTOM);
+		this.annoyingMobsService.despawnAll();
+		this.annoyingMobsService.preventNextSpawns();
+		
+		
+		//setup storm service
+		this.stormService = newStormService();
 		
 		int stormStopDelay = getConfig().getInt("Services.Storm.Stop Delay in seconds");
 		
 		Schedulers.builder()
 		.sync()
-		.every(stormStopDelay, SECONDS)
+		.every(stormStopDelay, TimeUnit.SECONDS)
 		.run(this.stormService::stopAllStorms);
-		
-		this.annoyingMobsService.despawnAll();
-		this.annoyingMobsService.preventNextSpawns();
 	}
 	
 	public static ComfortableLife getInstance() 
 	{
 		return INSTANCE;
 	}
-	
-	private void setupServices() 
+	private StormService newStormService() 
 	{
-		//storm
 		String stormStoppedMessage = this.mainConfig.getStormStoppedMessage();
-		this.stormService = stormStoppedMessage == null ? new SimpleStormService() : new SimpleStormService(colorize(stormStoppedMessage));
 		
-		//annoying mobs
-		this.annoyingMobsService = new SimpleEntityService(WANDERING_TRADER, LLAMA, PHANTOM);
+		return stormStoppedMessage == null ? new SimpleStormService() : new SimpleStormService(colorize(stormStoppedMessage));
 	}
 }
