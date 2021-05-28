@@ -6,6 +6,7 @@ import static org.bukkit.entity.EntityType.LLAMA;
 import static org.bukkit.entity.EntityType.PHANTOM;
 import static org.bukkit.entity.EntityType.WANDERING_TRADER;
 
+import dte.comfortablelife.config.MainConfig;
 import dte.comfortablelife.entity.EntityService;
 import dte.comfortablelife.entity.SimpleEntityService;
 import dte.comfortablelife.storms.SimpleStormService;
@@ -18,10 +19,16 @@ public class ComfortableLife extends ExtendedJavaPlugin
 	private StormService stormService;
 	private EntityService annoyingMobsService;
 	
+	private MainConfig mainConfig;
+	
+	private static ComfortableLife INSTANCE;
+	
 	@Override
 	public void enable()
 	{
-		saveDefaultConfig();
+		INSTANCE = this;
+		
+		this.mainConfig = new MainConfig();
 		setupServices();
 		
 		int stormStopDelay = getConfig().getInt("Services.Storm.Stop Delay in seconds");
@@ -35,10 +42,15 @@ public class ComfortableLife extends ExtendedJavaPlugin
 		this.annoyingMobsService.preventNextSpawns();
 	}
 	
+	public static ComfortableLife getInstance() 
+	{
+		return INSTANCE;
+	}
+	
 	private void setupServices() 
 	{
 		//storm
-		String stormStoppedMessage = getConfig().getString("Services.Storm.Stopped Message");
+		String stormStoppedMessage = this.mainConfig.getStormStoppedMessage();
 		this.stormService = stormStoppedMessage == null ? new SimpleStormService() : new SimpleStormService(colorize(stormStoppedMessage));
 		
 		//annoying mobs
