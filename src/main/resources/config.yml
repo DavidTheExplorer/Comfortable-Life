@@ -1,4 +1,6 @@
+Messages Prefix: "&f[&6ComfortableLife&f] "
+    
 Services:
     Storm:
-        Stop Delay in seconds: 10
-        Stopped Message:
+        Stop Delay in seconds: 3
+        Stopped Message: "&9Storm Stopped!"
