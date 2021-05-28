@@ -2,7 +2,7 @@ package dte.comfortablelife.entity;
 
 import static me.lucko.helper.event.filter.EventHandlers.cancel;
 
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -16,17 +16,11 @@ import me.lucko.helper.Events;
 
 public class SimpleEntityService implements EntityService
 {
-	private final Set<EntityType> entityTypes;
+	private final Set<EntityType> treatedTypes;
 	
-	public SimpleEntityService(EntityType... entityTypes) 
+	public SimpleEntityService(EntityType... treatedTypes) 
 	{
-		this.entityTypes = Sets.newHashSet(entityTypes);
-	}
-	
-	@Override
-	public Set<EntityType> getTreatedTypes() 
-	{
-		return Collections.unmodifiableSet(this.entityTypes);
+		this.treatedTypes = Sets.newHashSet(treatedTypes);
 	}
 	
 	@Override
@@ -34,15 +28,27 @@ public class SimpleEntityService implements EntityService
 	{
 		Bukkit.getWorlds().stream()
 		.flatMap(world -> world.getEntities().stream())
-		.filter(entity -> this.entityTypes.contains(entity.getType()))
+		.filter(this::shouldTreat)
 		.forEach(Entity::remove);
 	}
 	
 	@Override
-	public void despawnAll() 
+	public void despawnAll()
 	{
 		Events.subscribe(CreatureSpawnEvent.class)
-		.filter(event -> this.entityTypes.contains(event.getEntityType()))
+		.filter(this::shouldTreat)
 		.handler(cancel());
+	}
+	
+	@Override
+	public boolean shouldTreat(EntityType entityType) 
+	{
+		return this.treatedTypes.contains(entityType);
+	}
+	
+	@Override
+	public Set<EntityType> getTreatedTypes() 
+	{
+		return new HashSet<>(this.treatedTypes);
 	}
 }
