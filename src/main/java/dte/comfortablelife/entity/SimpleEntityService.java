@@ -2,7 +2,7 @@ package dte.comfortablelife.entity;
 
 import static me.lucko.helper.event.filter.EventHandlers.cancel;
 
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -49,6 +49,6 @@ public class SimpleEntityService implements EntityService
 	@Override
 	public Set<EntityType> getTreatedTypes() 
 	{
-		return Collections.unmodifiableSet(this.treatedTypes);
+		return new HashSet<>(this.treatedTypes);
 	}
 }
