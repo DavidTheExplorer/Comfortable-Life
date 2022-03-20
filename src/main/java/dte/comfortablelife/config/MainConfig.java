@@ -11,22 +11,17 @@ public class MainConfig extends AbstractSpigotConfig
 	{
 		return this.config.getString("Messages Prefix");
 	}
-	public String getMessage(String path) 
-	{
-		String messagesPrefix = getMessagesPrefix();
-		
-		if(messagesPrefix == null)
-			return null;
-		
-		String message = this.config.getString(path);
-		
-		if(message == null)
-			return null;
-		
-		return String.format("%s%s", messagesPrefix, message);
-	}
+	
 	public String getStormStoppedMessage() 
 	{
 		return getMessage("Services.Storm.Stopped Message");
+	}
+	
+	public String getMessage(String path) 
+	{
+		String messagesPrefix = getMessagesPrefix();
+		String message = this.config.getString(path);
+		
+		return String.format("%s %s", messagesPrefix, message);
 	}
 }

@@ -18,7 +18,7 @@ public abstract class AbstractSpigotConfig
 
 	protected AbstractSpigotConfig(String fileName) 
 	{
-		this.file = new File(ComfortableLife.getInstance().getDataFolder(), String.format("%s.yml", fileName));
+		this.file = new File(ComfortableLife.getInstance().getDataFolder(), fileName + ".yml");
 		
 		if(!this.file.exists())
 			ComfortableLife.getInstance().saveResource(this.file.getName(), false);
@@ -26,6 +26,7 @@ public abstract class AbstractSpigotConfig
 		this.config = YamlConfiguration.loadConfiguration(this.file);
 
 	}
+	
 	public String getString(String path) 
 	{
 		return this.config.getString(path);
