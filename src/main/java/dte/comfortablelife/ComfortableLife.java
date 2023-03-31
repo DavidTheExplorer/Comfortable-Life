@@ -1,8 +1,10 @@
 package dte.comfortablelife;
 
 import static dte.comfortablelife.utils.ChatColorUtils.colorize;
+import static org.bukkit.entity.EntityType.LLAMA;
+import static org.bukkit.entity.EntityType.PHANTOM;
+import static org.bukkit.entity.EntityType.WANDERING_TRADER;
 
-import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.collect.Lists;
@@ -37,7 +39,7 @@ public class ComfortableLife extends JavaPlugin
 	
 	private EntityService createEntityService() 
 	{
-		return new SimpleEntityService(EntityType.WANDERING_TRADER, EntityType.LLAMA, EntityType.PHANTOM);
+		return new SimpleEntityService(WANDERING_TRADER, LLAMA, PHANTOM);
 	}
 	
 	private StormService newStormService() 
