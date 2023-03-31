@@ -1,5 +1,7 @@
 package dte.comfortablelife.annoyingservicie;
 
+import java.time.Duration;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -8,12 +10,12 @@ import dte.comfortablelife.ComfortableLife;
 public class SimpleStormService implements StormService
 {
 	private final String stormStoppedMessage;
-	private final int stormStopDelay;
+	private final long delayInTicks;
 
-	public SimpleStormService(String stormStoppedMessage, int stormStopDelay) 
+	public SimpleStormService(String stormStoppedMessage, Duration stormStopDelay) 
 	{
 		this.stormStoppedMessage = stormStoppedMessage;
-		this.stormStopDelay = stormStopDelay;
+		this.delayInTicks = stormStopDelay.getSeconds() / 20;
 	}
 
 	@Override
@@ -28,7 +30,7 @@ public class SimpleStormService implements StormService
 	@Override
 	public void preventNextSpawns() 
 	{
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(ComfortableLife.getInstance(), this::despawnAll, 0, this.stormStopDelay / 20);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(ComfortableLife.getInstance(), this::despawnAll, 0, this.delayInTicks);
 	}
 	
 	@Override
