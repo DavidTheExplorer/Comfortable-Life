@@ -1,25 +1,32 @@
 package dte.comfortablelife.annoyingservicie;
 
-import static me.lucko.helper.event.filter.EventHandlers.cancel;
-
 import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import com.google.common.collect.Sets;
 
-import me.lucko.helper.Events;
+import dte.comfortablelife.ComfortableLife;
 
-public class SimpleEntityService implements EntityService
+public class SimpleEntityService implements EntityService, Listener
 {
 	private final Set<EntityType> treatedTypes;
 
 	public SimpleEntityService(EntityType... treatedTypes) 
 	{
 		this.treatedTypes = Sets.newHashSet(treatedTypes);
+	}
+	
+	@EventHandler
+	public void onEntitySpawn(CreatureSpawnEvent event) 
+	{
+		if(shouldDespawn(event.getEntityType())) 
+			event.setCancelled(true);
 	}
 
 	@Override
@@ -34,9 +41,7 @@ public class SimpleEntityService implements EntityService
 	@Override
 	public void preventNextSpawns() 
 	{
-		Events.subscribe(CreatureSpawnEvent.class)
-		.filter(event -> shouldDespawn(event.getEntityType()))
-		.handler(cancel());
+		Bukkit.getPluginManager().registerEvents(this, ComfortableLife.getInstance());
 	}
 
 	@Override
