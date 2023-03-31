@@ -46,8 +46,8 @@ public class ComfortableLife extends JavaPlugin
 	
 	private StormService newStormService() 
 	{
-		String stormStoppedMessage = colorize(getConfig().getString("Services.Storm.Stopped Message"));
-		Duration stormStopDelay = Duration.ofSeconds(getConfig().getInt("Services.Storm.Stop Delay in seconds"));
+		String stormStoppedMessage = colorize(getConfig().getString("services.storm.stopped-message"));
+		Duration stormStopDelay = Duration.ofSeconds(getConfig().getInt("services.storm.stop-delay-in-seconds"));
 
 		return new SimpleStormService(stormStoppedMessage, stormStopDelay);
 	}

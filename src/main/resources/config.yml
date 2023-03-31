@@ -1,4 +1,4 @@
-Services:
-    Storm:
-        Stop Delay in seconds: 3
-        Stopped Message: "&9Storm Stopped!"
+services:
+    storm:
+        stop-delay-in-seconds: 3
+        stopped-message: "&9Storm Stopped!"
