@@ -5,6 +5,8 @@ import static org.bukkit.entity.EntityType.LLAMA;
 import static org.bukkit.entity.EntityType.PHANTOM;
 import static org.bukkit.entity.EntityType.WANDERING_TRADER;
 
+import java.time.Duration;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.collect.Lists;
@@ -47,7 +49,7 @@ public class ComfortableLife extends JavaPlugin
 		MainConfig mainConfig = new MainConfig();
 		
 		String stormStoppedMessage = colorize(mainConfig.getStormStoppedMessage());
-		int stormStopDelay = getConfig().getInt("Services.Storm.Stop Delay in seconds");
+		Duration stormStopDelay = Duration.ofSeconds(getConfig().getInt("Services.Storm.Stop Delay in seconds"));
 
 		return new SimpleStormService(stormStoppedMessage, stormStopDelay);
 	}
