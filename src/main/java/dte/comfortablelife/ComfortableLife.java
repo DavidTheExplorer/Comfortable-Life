@@ -1,13 +1,12 @@
 package dte.comfortablelife;
 
 import static dte.comfortablelife.utils.ChatColorUtils.colorize;
-import static org.bukkit.entity.EntityType.LLAMA;
-import static org.bukkit.entity.EntityType.PHANTOM;
-import static org.bukkit.entity.EntityType.WANDERING_TRADER;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Objects;
 
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dte.comfortablelife.annoyingservicie.AnnoyingService;
@@ -27,7 +26,7 @@ public class ComfortableLife extends JavaPlugin
 
 		saveDefaultConfig();
 
-		for(AnnoyingService service : Arrays.asList(createEntityService(), newStormService())) 
+		for(AnnoyingService service : Arrays.asList(parseEntityService(), parseStormService())) 
 		{
 			service.despawnAll();
 			service.preventNextSpawns();
@@ -39,12 +38,27 @@ public class ComfortableLife extends JavaPlugin
 		return INSTANCE;
 	}
 	
-	private EntityService createEntityService() 
+	private EntityService parseEntityService() 
 	{
-		return new SimpleEntityService(WANDERING_TRADER, LLAMA, PHANTOM);
+		EntityType[] treatedTypes = getConfig().getStringList("services.annoying-entity.treated-types").stream()
+				.map(typeName -> 
+				{
+					try 
+					{
+						return EntityType.valueOf(typeName.toUpperCase().replace(' ', '_'));
+					}
+					catch(IllegalArgumentException exception) 
+					{
+						return null;
+					}
+				})
+				.filter(Objects::nonNull)
+				.toArray(EntityType[]::new);
+
+		return new SimpleEntityService(treatedTypes);
 	}
 	
-	private StormService newStormService() 
+	private StormService parseStormService() 
 	{
 		String stormStoppedMessage = colorize(getConfig().getString("services.storm.stopped-message"));
 		Duration stormStopDelay = Duration.ofSeconds(getConfig().getInt("services.storm.stop-delay-in-seconds"));
