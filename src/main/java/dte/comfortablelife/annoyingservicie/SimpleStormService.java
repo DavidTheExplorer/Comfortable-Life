@@ -1,11 +1,9 @@
 package dte.comfortablelife.annoyingservicie;
 
-import java.util.concurrent.TimeUnit;
-
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import me.lucko.helper.Schedulers;
+import dte.comfortablelife.ComfortableLife;
 
 public class SimpleStormService implements StormService
 {
@@ -30,10 +28,7 @@ public class SimpleStormService implements StormService
 	@Override
 	public void preventNextSpawns() 
 	{
-		Schedulers.builder()
-		.sync()
-		.every(this.stormStopDelay, TimeUnit.SECONDS)
-		.run(this::despawnAll);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(ComfortableLife.getInstance(), this::despawnAll, 0, this.stormStopDelay / 20);
 	}
 	
 	@Override
