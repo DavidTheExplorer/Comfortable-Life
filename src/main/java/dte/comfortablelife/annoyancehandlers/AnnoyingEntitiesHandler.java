@@ -1,4 +1,4 @@
-package dte.comfortablelife.annoyingservicie;
+package dte.comfortablelife.annoyancehandlers;
 
 import java.util.Arrays;
 import java.util.Set;

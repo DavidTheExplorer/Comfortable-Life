@@ -1,4 +1,4 @@
-package dte.comfortablelife.annoyingservicie;
+package dte.comfortablelife.annoyancehandlers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;

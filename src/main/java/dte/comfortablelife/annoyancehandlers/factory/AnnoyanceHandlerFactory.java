@@ -1,4 +1,4 @@
-package dte.comfortablelife.annoyingservicie.factory;
+package dte.comfortablelife.annoyancehandlers.factory;
 
 import static dte.comfortablelife.utils.ChatColorUtils.colorize;
 import static org.bukkit.ChatColor.RED;
@@ -10,9 +10,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
 import dte.comfortablelife.ComfortableLife;
-import dte.comfortablelife.annoyingservicie.AnnoyanceHandler;
-import dte.comfortablelife.annoyingservicie.AnnoyingEntitiesHandler;
-import dte.comfortablelife.annoyingservicie.AnnoyingStormsHandler;
+import dte.comfortablelife.annoyancehandlers.AnnoyanceHandler;
+import dte.comfortablelife.annoyancehandlers.AnnoyingEntitiesHandler;
+import dte.comfortablelife.annoyancehandlers.AnnoyingStormsHandler;
 
 public class AnnoyanceHandlerFactory 
 {

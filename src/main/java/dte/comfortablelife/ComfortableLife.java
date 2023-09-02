@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import dte.comfortablelife.annoyingservicie.AnnoyanceHandler;
-import dte.comfortablelife.annoyingservicie.factory.AnnoyanceHandlerFactory;
+import dte.comfortablelife.annoyancehandlers.AnnoyanceHandler;
+import dte.comfortablelife.annoyancehandlers.factory.AnnoyanceHandlerFactory;
 import dte.modernjavaplugin.ModernJavaPlugin;
 
 public class ComfortableLife extends ModernJavaPlugin
