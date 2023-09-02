@@ -13,7 +13,7 @@ import com.google.common.collect.Sets;
 
 import dte.comfortablelife.ComfortableLife;
 
-public class SimpleEntityService implements EntityService, Listener
+public class SimpleEntityService implements AnnoyingService, Listener
 {
 	private final Set<EntityType> treatedTypes;
 
@@ -44,8 +44,7 @@ public class SimpleEntityService implements EntityService, Listener
 		Bukkit.getPluginManager().registerEvents(this, ComfortableLife.getInstance());
 	}
 
-	@Override
-	public boolean shouldDespawn(EntityType entityType) 
+	private boolean shouldDespawn(EntityType entityType) 
 	{
 		return this.treatedTypes.contains(entityType);
 	}

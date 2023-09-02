@@ -10,10 +10,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dte.comfortablelife.annoyingservicie.AnnoyingService;
-import dte.comfortablelife.annoyingservicie.EntityService;
 import dte.comfortablelife.annoyingservicie.SimpleEntityService;
 import dte.comfortablelife.annoyingservicie.SimpleStormService;
-import dte.comfortablelife.annoyingservicie.StormService;
 
 public class ComfortableLife extends JavaPlugin
 {
@@ -38,7 +36,7 @@ public class ComfortableLife extends JavaPlugin
 		return INSTANCE;
 	}
 	
-	private EntityService parseEntityService() 
+	private AnnoyingService parseEntityService() 
 	{
 		EntityType[] treatedTypes = getConfig().getStringList("services.annoying-entity.treated-types").stream()
 				.map(typeName -> 
@@ -58,7 +56,7 @@ public class ComfortableLife extends JavaPlugin
 		return new SimpleEntityService(treatedTypes);
 	}
 	
-	private StormService parseStormService() 
+	private AnnoyingService parseStormService() 
 	{
 		String stormStoppedMessage = colorize(getConfig().getString("services.storm.stopped-message"));
 		Duration stormStopDelay = Duration.ofSeconds(getConfig().getInt("services.storm.stop-delay-in-seconds"));

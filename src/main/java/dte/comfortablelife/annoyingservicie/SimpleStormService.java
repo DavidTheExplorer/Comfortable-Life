@@ -7,7 +7,7 @@ import org.bukkit.World;
 
 import dte.comfortablelife.ComfortableLife;
 
-public class SimpleStormService implements StormService
+public class SimpleStormService implements AnnoyingService
 {
 	private final String stormStoppedMessage;
 	private final long delayInTicks;
@@ -19,25 +19,23 @@ public class SimpleStormService implements StormService
 	}
 
 	@Override
+	public void preventNextSpawns() 
+	{
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(ComfortableLife.getInstance(), this::despawnAll, 0, this.delayInTicks);
+	}
+	
+	public void despawnAll() 
+	{
+		Bukkit.getWorlds().stream()
+		.filter(World::hasStorm)
+		.forEach(this::stopStormAt);
+	}
+	
 	public void stopStormAt(World world) 
 	{
 		world.setStorm(false);
 
 		if(this.stormStoppedMessage != null)
 			world.getPlayers().forEach(player -> player.sendMessage(this.stormStoppedMessage));
-	}
-
-	@Override
-	public void preventNextSpawns() 
-	{
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(ComfortableLife.getInstance(), this::despawnAll, 0, this.delayInTicks);
-	}
-	
-	@Override
-	public void despawnAll() 
-	{
-		Bukkit.getWorlds().stream()
-		.filter(World::hasStorm)
-		.forEach(this::stopStormAt);
 	}
 }
