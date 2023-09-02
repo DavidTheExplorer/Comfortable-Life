@@ -31,17 +31,15 @@ public class AnnoyingEntitiesHandler implements AnnoyanceHandler, Listener
 	}
 
 	@Override
-	public void stop()
+	public void stopAnnoyance()
 	{
+		//despawn current annoying entities
 		Bukkit.getWorlds().stream()
 		.flatMap(world -> world.getEntities().stream())
 		.filter(entity -> shouldDespawn(entity.getType()))
 		.forEach(Entity::remove);
-	}
 
-	@Override
-	public void stopFutureAnnoyance() 
-	{
+		//prevent next entities from spawning
 		Bukkit.getPluginManager().registerEvents(this, ComfortableLife.getInstance());
 	}
 

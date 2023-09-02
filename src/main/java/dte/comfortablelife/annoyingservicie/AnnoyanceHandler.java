@@ -1,7 +1,7 @@
 package dte.comfortablelife.annoyingservicie;
 
+@FunctionalInterface
 public interface AnnoyanceHandler
 {
-	void stop();
-	void stopFutureAnnoyance();
+	void stopAnnoyance();
 }

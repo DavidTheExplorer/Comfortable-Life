@@ -24,11 +24,7 @@ public class ComfortableLife extends JavaPlugin
 	{
 		INSTANCE = this;
 
-		for(AnnoyanceHandler handler : parseConfigHandlers()) 
-		{
-			handler.stop();
-			handler.stopFutureAnnoyance();
-		}
+		parseConfigHandlers().forEach(AnnoyanceHandler::stopAnnoyance);
 	}
 
 	public static ComfortableLife getInstance() 

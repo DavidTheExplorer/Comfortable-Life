@@ -15,17 +15,15 @@ public class AnnoyingStormsHandler implements AnnoyanceHandler
 	}
 
 	@Override
-	public void stop() 
+	public void stopAnnoyance() 
 	{
+		//stop current storms
 		Bukkit.getWorlds().stream()
 		.filter(World::hasStorm)
 		.forEach(this::stopStormAt);
-	}
 	
-	@Override
-	public void stopFutureAnnoyance() 
-	{
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(ComfortableLife.getInstance(), this::stop, 0, 20);
+		//prevent next storms
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(ComfortableLife.getInstance(), this::stopAnnoyance, 0, 20);
 	}
 	
 	public void stopStormAt(World world) 
