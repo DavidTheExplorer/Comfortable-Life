@@ -7,15 +7,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import dte.comfortablelife.annoyingservicie.AnnoyanceHandler;
 import dte.comfortablelife.annoyingservicie.AnnoyingEntitiesHandler;
 import dte.comfortablelife.annoyingservicie.AnnoyingStormsHandler;
+import dte.modernjavaplugin.ModernJavaPlugin;
 
-public class ComfortableLife extends JavaPlugin
+public class ComfortableLife extends ModernJavaPlugin
 {
 	private static ComfortableLife INSTANCE;
 
@@ -50,6 +49,7 @@ public class ComfortableLife extends JavaPlugin
 					}
 					catch(IllegalArgumentException exception)
 					{
+						logToConsole(RED + String.format("Couldn't blacklist \"%s\" because such mob doesn't exist!", typeName));
 						return null;
 					}
 				})
