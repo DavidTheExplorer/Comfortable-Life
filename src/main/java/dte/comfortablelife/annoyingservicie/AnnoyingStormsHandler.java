@@ -2,10 +2,13 @@ package dte.comfortablelife.annoyingservicie;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.weather.WeatherChangeEvent;
 
 import dte.comfortablelife.ComfortableLife;
 
-public class AnnoyingStormsHandler implements AnnoyanceHandler
+public class AnnoyingStormsHandler implements AnnoyanceHandler, Listener
 {
 	private String globalMessage;
 
@@ -15,24 +18,39 @@ public class AnnoyingStormsHandler implements AnnoyanceHandler
 	}
 
 	@Override
-	public void stopAnnoyance() 
+	public void stopAnnoyance()
 	{
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(ComfortableLife.getInstance(), this::stopAllStorms, 0, 20);
+		stopCurrentStorms();
+
+		//prevent future storms
+		Bukkit.getPluginManager().registerEvents(this, ComfortableLife.getInstance());
 	}
 
-	private void stopAllStorms()
+	@EventHandler
+	public void stopFutureRains(WeatherChangeEvent event) 
+	{
+		if(!event.toWeatherState()) 
+			return;
+
+		event.setCancelled(true);
+		
+		notifyPlayers(event.getWorld());
+	}
+	
+	private void stopCurrentStorms() 
 	{
 		Bukkit.getWorlds().stream()
 		.filter(World::hasStorm)
-		.forEach(this::stopStormAt);
+		.forEach(world -> 
+		{
+			world.setStorm(false);
+			
+			notifyPlayers(world);
+		});
 	}
 	
-	public void stopStormAt(World world) 
+	private void notifyPlayers(World world) 
 	{
-		//stop the storm
-		world.setStorm(false);
-
-		//notify the world's players
 		if(this.globalMessage != null)
 			world.getPlayers().forEach(player -> player.sendMessage(this.globalMessage));
 	}
