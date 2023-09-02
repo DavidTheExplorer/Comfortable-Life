@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
@@ -22,7 +23,7 @@ public class AnnoyingEntitiesHandler implements AnnoyanceHandler, Listener
 		this.blacklist = Sets.newHashSet(blacklistedTypes);
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntitySpawn(CreatureSpawnEvent event) 
 	{
 		if(shouldDespawn(event.getEntityType())) 
