@@ -17,19 +17,22 @@ public class AnnoyingStormsHandler implements AnnoyanceHandler
 	@Override
 	public void stopAnnoyance() 
 	{
-		//stop current storms
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(ComfortableLife.getInstance(), this::stopAllStorms, 0, 20);
+	}
+
+	private void stopAllStorms()
+	{
 		Bukkit.getWorlds().stream()
 		.filter(World::hasStorm)
 		.forEach(this::stopStormAt);
-	
-		//prevent next storms
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(ComfortableLife.getInstance(), this::stopAnnoyance, 0, 20);
 	}
 	
 	public void stopStormAt(World world) 
 	{
+		//stop the storm
 		world.setStorm(false);
 
+		//notify the world's players
 		if(this.stormStoppedMessage != null)
 			world.getPlayers().forEach(player -> player.sendMessage(this.stormStoppedMessage));
 	}
