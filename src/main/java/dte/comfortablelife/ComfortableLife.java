@@ -30,14 +30,14 @@ public class ComfortableLife extends ModernJavaPlugin
 	{
 		return INSTANCE;
 	}
-	
+
 	private List<AnnoyanceHandler> parseConfigHandlers()
 	{
 		saveDefaultConfig();
-		
+
 		return Arrays.asList(parseEntitiesHandler(), parseStormsHandler());
 	}
-	
+
 	private AnnoyanceHandler parseEntitiesHandler() 
 	{
 		EntityType[] blacklistedEntities = getConfig().getStringList("handlers.entities.blacklist").stream()
@@ -58,11 +58,14 @@ public class ComfortableLife extends ModernJavaPlugin
 
 		return new AnnoyingEntitiesHandler(blacklistedEntities);
 	}
-	
+
 	private AnnoyanceHandler parseStormsHandler() 
 	{
-		String stormStoppedMessage = colorize(getConfig().getString("handlers.storms.stopped-message"));
+		String globalMessage = colorize(getConfig().getString("handlers.storms.global-message"));
 
-		return new AnnoyingStormsHandler(stormStoppedMessage);
+		if(globalMessage.isEmpty())
+			globalMessage = null;
+
+		return new AnnoyingStormsHandler(globalMessage);
 	}
 }

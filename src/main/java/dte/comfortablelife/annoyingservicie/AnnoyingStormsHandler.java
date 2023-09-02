@@ -7,11 +7,11 @@ import dte.comfortablelife.ComfortableLife;
 
 public class AnnoyingStormsHandler implements AnnoyanceHandler
 {
-	private final String stormStoppedMessage;
+	private String globalMessage;
 
-	public AnnoyingStormsHandler(String stormStoppedMessage) 
+	public AnnoyingStormsHandler(String globalMessage) 
 	{
-		this.stormStoppedMessage = stormStoppedMessage;
+		this.globalMessage = globalMessage;
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class AnnoyingStormsHandler implements AnnoyanceHandler
 		world.setStorm(false);
 
 		//notify the world's players
-		if(this.stormStoppedMessage != null)
-			world.getPlayers().forEach(player -> player.sendMessage(this.stormStoppedMessage));
+		if(this.globalMessage != null)
+			world.getPlayers().forEach(player -> player.sendMessage(this.globalMessage));
 	}
 }
