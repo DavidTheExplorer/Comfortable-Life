@@ -1,9 +1,9 @@
-services:
-    annoying-entity:
-        treated-types: 
+handlers:
+    entities:
+        blacklist: 
             - WANDERING_TRADER
             - LLAMA
             - PHANTOM
-    storm:
+    storms:
         stop-delay-in-seconds: 3
         stopped-message: "&9Storm Stopped!"

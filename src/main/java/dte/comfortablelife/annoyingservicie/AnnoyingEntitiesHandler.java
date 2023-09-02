@@ -13,13 +13,13 @@ import com.google.common.collect.Sets;
 
 import dte.comfortablelife.ComfortableLife;
 
-public class SimpleEntityService implements AnnoyingService, Listener
+public class AnnoyingEntitiesHandler implements AnnoyanceHandler, Listener
 {
-	private final Set<EntityType> treatedTypes;
+	private final Set<EntityType> blacklist;
 
-	public SimpleEntityService(EntityType... treatedTypes) 
+	public AnnoyingEntitiesHandler(EntityType... blacklistedTypes) 
 	{
-		this.treatedTypes = Sets.newHashSet(treatedTypes);
+		this.blacklist = Sets.newHashSet(blacklistedTypes);
 	}
 	
 	@EventHandler
@@ -30,7 +30,7 @@ public class SimpleEntityService implements AnnoyingService, Listener
 	}
 
 	@Override
-	public void despawnAll()
+	public void stop()
 	{
 		Bukkit.getWorlds().stream()
 		.flatMap(world -> world.getEntities().stream())
@@ -39,13 +39,13 @@ public class SimpleEntityService implements AnnoyingService, Listener
 	}
 
 	@Override
-	public void preventNextSpawns() 
+	public void stopFutureAnnoyance() 
 	{
 		Bukkit.getPluginManager().registerEvents(this, ComfortableLife.getInstance());
 	}
 
 	private boolean shouldDespawn(EntityType entityType) 
 	{
-		return this.treatedTypes.contains(entityType);
+		return this.blacklist.contains(entityType);
 	}
 }

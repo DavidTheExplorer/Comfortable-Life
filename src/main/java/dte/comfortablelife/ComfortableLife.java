@@ -1,17 +1,20 @@
 package dte.comfortablelife;
 
 import static dte.comfortablelife.utils.ChatColorUtils.colorize;
+import static org.bukkit.ChatColor.RED;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import dte.comfortablelife.annoyingservicie.AnnoyingService;
-import dte.comfortablelife.annoyingservicie.SimpleEntityService;
-import dte.comfortablelife.annoyingservicie.SimpleStormService;
+import dte.comfortablelife.annoyingservicie.AnnoyanceHandler;
+import dte.comfortablelife.annoyingservicie.AnnoyingEntitiesHandler;
+import dte.comfortablelife.annoyingservicie.AnnoyingStormsHandler;
 
 public class ComfortableLife extends JavaPlugin
 {
@@ -22,12 +25,10 @@ public class ComfortableLife extends JavaPlugin
 	{
 		INSTANCE = this;
 
-		saveDefaultConfig();
-
-		for(AnnoyingService service : Arrays.asList(parseEntityService(), parseStormService())) 
+		for(AnnoyanceHandler handler : parseConfigHandlers()) 
 		{
-			service.despawnAll();
-			service.preventNextSpawns();
+			handler.stop();
+			handler.stopFutureAnnoyance();
 		}
 	}
 
@@ -36,16 +37,23 @@ public class ComfortableLife extends JavaPlugin
 		return INSTANCE;
 	}
 	
-	private AnnoyingService parseEntityService() 
+	private List<AnnoyanceHandler> parseConfigHandlers()
 	{
-		EntityType[] treatedTypes = getConfig().getStringList("services.annoying-entity.treated-types").stream()
+		saveDefaultConfig();
+		
+		return Arrays.asList(parseEntitiesHandler(), parseStormsHandler());
+	}
+	
+	private AnnoyanceHandler parseEntitiesHandler() 
+	{
+		EntityType[] blacklistedEntities = getConfig().getStringList("handlers.entities.blacklist").stream()
 				.map(typeName -> 
 				{
 					try 
 					{
 						return EntityType.valueOf(typeName.toUpperCase().replace(' ', '_'));
 					}
-					catch(IllegalArgumentException exception) 
+					catch(IllegalArgumentException exception)
 					{
 						return null;
 					}
@@ -53,14 +61,14 @@ public class ComfortableLife extends JavaPlugin
 				.filter(Objects::nonNull)
 				.toArray(EntityType[]::new);
 
-		return new SimpleEntityService(treatedTypes);
+		return new AnnoyingEntitiesHandler(blacklistedEntities);
 	}
 	
-	private AnnoyingService parseStormService() 
+	private AnnoyanceHandler parseStormsHandler() 
 	{
-		String stormStoppedMessage = colorize(getConfig().getString("services.storm.stopped-message"));
-		Duration stormStopDelay = Duration.ofSeconds(getConfig().getInt("services.storm.stop-delay-in-seconds"));
+		String stormStoppedMessage = colorize(getConfig().getString("handlers.storms.stopped-message"));
+		Duration stormStopDelay = Duration.ofSeconds(getConfig().getInt("handlers.storms.stop-delay-in-seconds"));
 
-		return new SimpleStormService(stormStoppedMessage, stormStopDelay);
+		return new AnnoyingStormsHandler(stormStoppedMessage, stormStopDelay);
 	}
 }
