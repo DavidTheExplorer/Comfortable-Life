@@ -5,5 +5,4 @@ handlers:
             - LLAMA
             - PHANTOM
     storms:
-        stop-delay-in-seconds: 3
         stopped-message: "&9Storm Stopped!"

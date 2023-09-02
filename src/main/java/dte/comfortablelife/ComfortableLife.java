@@ -3,7 +3,6 @@ package dte.comfortablelife;
 import static dte.comfortablelife.utils.ChatColorUtils.colorize;
 import static org.bukkit.ChatColor.RED;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -67,8 +66,7 @@ public class ComfortableLife extends JavaPlugin
 	private AnnoyanceHandler parseStormsHandler() 
 	{
 		String stormStoppedMessage = colorize(getConfig().getString("handlers.storms.stopped-message"));
-		Duration stormStopDelay = Duration.ofSeconds(getConfig().getInt("handlers.storms.stop-delay-in-seconds"));
 
-		return new AnnoyingStormsHandler(stormStoppedMessage, stormStopDelay);
+		return new AnnoyingStormsHandler(stormStoppedMessage);
 	}
 }
