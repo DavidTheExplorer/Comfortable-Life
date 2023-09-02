@@ -1,5 +1,6 @@
 package dte.comfortablelife.annoyingservicie;
 
+import java.util.Arrays;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -9,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
 
 import com.google.common.collect.Sets;
 
@@ -23,6 +25,12 @@ public class AnnoyingEntitiesHandler implements AnnoyanceHandler, Listener
 		this.blacklist = Sets.newHashSet(blacklistedTypes);
 	}
 	
+	@Override
+	public void stopAnnoyance() 
+	{
+		Bukkit.getPluginManager().registerEvents(this, ComfortableLife.getInstance());
+	}
+
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntitySpawn(CreatureSpawnEvent event) 
 	{
@@ -30,17 +38,12 @@ public class AnnoyingEntitiesHandler implements AnnoyanceHandler, Listener
 			event.setCancelled(true);
 	}
 
-	@Override
-	public void stopAnnoyance()
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onChunkLoad(ChunkLoadEvent event) 
 	{
-		//despawn current annoying entities
-		Bukkit.getWorlds().stream()
-		.flatMap(world -> world.getEntities().stream())
+		Arrays.stream(event.getChunk().getEntities())
 		.filter(entity -> shouldDespawn(entity.getType()))
 		.forEach(Entity::remove);
-
-		//prevent next entities from spawning
-		Bukkit.getPluginManager().registerEvents(this, ComfortableLife.getInstance());
 	}
 
 	private boolean shouldDespawn(EntityType entityType) 
