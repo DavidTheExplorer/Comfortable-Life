@@ -7,4 +7,4 @@ handlers:
             - Phantom
     storms:
         active: true
-        global-message: "&9Storm Stopped!"
+        global-message: ""
