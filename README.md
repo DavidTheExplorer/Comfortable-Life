@@ -1,6 +1,7 @@
-# Tests Environment Protector
-When testing plugins, it's easy to get annoyed by things that naturally exist in Minecraft.\
-This plugin prevents them by using services, each responsible for a different problem:
-- Despawning mobs: The `config.yml` features a list(By default including: Wandering Villagers, Llamas, Phantoms) which you can edit anytime when necessary.
+# Comfortable Debugging Environment
+Some natural features in Minecraft are really annoying and distracting when testing plugins: `Storms`, `Phantoms`, etc.\
+This plugin offers a simple config where you can disable or control all of those.
 
-- Preventing storms: Exactly like it sounds.
+## Default Config:
+- `Storms` are disabled.
+- `Phantoms`, `Wandering Villagers`, and `Llamas` can't spawn.
