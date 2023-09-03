@@ -25,10 +25,10 @@ public class AnnoyanceHandlerFactory
 	
 	public AnnoyanceHandler parseEntitiesHandler() 
 	{
-		ConfigurationSection section = this.config.getConfigurationSection("handlers.entities");
+		ConfigurationSection section = getHandlerSection("entities");
 		
-		//return null if the handler is disabled
-		if(!section.getBoolean("active"))
+		//null means the handler is disabled
+		if(section == null)
 			return null;
 
 		EntityType[] blacklistedEntities = section.getStringList("blacklist").stream()
@@ -52,10 +52,10 @@ public class AnnoyanceHandlerFactory
 
 	public AnnoyanceHandler parseStormsHandler() 
 	{
-		ConfigurationSection section = this.config.getConfigurationSection("handlers.storms");
+		ConfigurationSection section = getHandlerSection("storms");
 		
-		//return null if the handler is disabled
-		if(!section.getBoolean("active"))
+		//null means the handler is disabled
+		if(section == null)
 			return null;
 
 		String globalMessage = colorize(section.getString("global-message"));
@@ -64,5 +64,16 @@ public class AnnoyanceHandlerFactory
 			globalMessage = null;
 
 		return new AnnoyingStormsHandler(globalMessage);
+	}
+	
+	private ConfigurationSection getHandlerSection(String handlerName) 
+	{
+		ConfigurationSection section = this.config.getConfigurationSection("handlers." + handlerName);
+		
+		//return null if the handler is disabled
+		if(!section.getBoolean("active"))
+			return null;
+		
+		return section;
 	}
 }

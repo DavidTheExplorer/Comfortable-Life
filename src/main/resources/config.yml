@@ -2,9 +2,9 @@ handlers:
     entities:
         active: true
         blacklist: 
-            - WANDERING_TRADER
-            - LLAMA
-            - PHANTOM
+            - Wandering Trader
+            - Llama
+            - Phantom
     storms:
         active: true
         global-message: "&9Storm Stopped!"

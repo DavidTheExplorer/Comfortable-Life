@@ -34,7 +34,7 @@ public class AnnoyingEntitiesHandler implements AnnoyanceHandler, Listener
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntitySpawn(CreatureSpawnEvent event) 
 	{
-		if(shouldDespawn(event.getEntityType())) 
+		if(isBlacklisted(event.getEntity())) 
 			event.setCancelled(true);
 	}
 
@@ -42,12 +42,12 @@ public class AnnoyingEntitiesHandler implements AnnoyanceHandler, Listener
 	public void onChunkLoad(ChunkLoadEvent event) 
 	{
 		Arrays.stream(event.getChunk().getEntities())
-		.filter(entity -> shouldDespawn(entity.getType()))
+		.filter(this::isBlacklisted)
 		.forEach(Entity::remove);
 	}
 
-	private boolean shouldDespawn(EntityType entityType) 
+	private boolean isBlacklisted(Entity entity) 
 	{
-		return this.blacklist.contains(entityType);
+		return this.blacklist.contains(entity.getType());
 	}
 }

@@ -2,6 +2,7 @@ package dte.comfortablelife.annoyancehandlers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.WeatherChangeEvent;
@@ -29,11 +30,11 @@ public class AnnoyingStormsHandler implements AnnoyanceHandler, Listener
 	@EventHandler
 	public void stopFutureRains(WeatherChangeEvent event) 
 	{
+		//the new weather has to be storm
 		if(!event.toWeatherState()) 
 			return;
 
 		event.setCancelled(true);
-		
 		notifyPlayers(event.getWorld());
 	}
 	
@@ -51,7 +52,10 @@ public class AnnoyingStormsHandler implements AnnoyanceHandler, Listener
 	
 	private void notifyPlayers(World world) 
 	{
-		if(this.globalMessage != null)
-			world.getPlayers().forEach(player -> player.sendMessage(this.globalMessage));
+		if(this.globalMessage == null)
+			return;
+		
+		for(Player player : world.getPlayers())
+			player.sendMessage(this.globalMessage);
 	}
 }
