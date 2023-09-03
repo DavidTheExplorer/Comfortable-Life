@@ -1,21 +1,16 @@
 package dte.comfortablelife;
 
-import static dte.comfortablelife.utils.ChatColorUtils.colorize;
+import static java.util.stream.Collectors.toList;
 
-import java.time.Duration;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
-import org.bukkit.entity.EntityType;
-import org.bukkit.plugin.java.JavaPlugin;
+import dte.comfortablelife.annoyancehandlers.AnnoyanceHandler;
+import dte.comfortablelife.annoyancehandlers.factory.AnnoyanceHandlerFactory;
+import dte.modernjavaplugin.ModernJavaPlugin;
 
-import dte.comfortablelife.annoyingservicie.AnnoyingService;
-import dte.comfortablelife.annoyingservicie.EntityService;
-import dte.comfortablelife.annoyingservicie.SimpleEntityService;
-import dte.comfortablelife.annoyingservicie.SimpleStormService;
-import dte.comfortablelife.annoyingservicie.StormService;
-
-public class ComfortableLife extends JavaPlugin
+public class ComfortableLife extends ModernJavaPlugin
 {
 	private static ComfortableLife INSTANCE;
 
@@ -26,43 +21,20 @@ public class ComfortableLife extends JavaPlugin
 
 		saveDefaultConfig();
 
-		for(AnnoyingService service : Arrays.asList(parseEntityService(), parseStormService())) 
-		{
-			service.despawnAll();
-			service.preventNextSpawns();
-		}
+		parseActiveHandlers().forEach(AnnoyanceHandler::stopAnnoyance);
 	}
 
 	public static ComfortableLife getInstance() 
 	{
 		return INSTANCE;
 	}
-	
-	private EntityService parseEntityService() 
-	{
-		EntityType[] treatedTypes = getConfig().getStringList("services.annoying-entity.treated-types").stream()
-				.map(typeName -> 
-				{
-					try 
-					{
-						return EntityType.valueOf(typeName.toUpperCase().replace(' ', '_'));
-					}
-					catch(IllegalArgumentException exception) 
-					{
-						return null;
-					}
-				})
-				.filter(Objects::nonNull)
-				.toArray(EntityType[]::new);
 
-		return new SimpleEntityService(treatedTypes);
-	}
-	
-	private StormService parseStormService() 
+	private List<AnnoyanceHandler> parseActiveHandlers()
 	{
-		String stormStoppedMessage = colorize(getConfig().getString("services.storm.stopped-message"));
-		Duration stormStopDelay = Duration.ofSeconds(getConfig().getInt("services.storm.stop-delay-in-seconds"));
-
-		return new SimpleStormService(stormStoppedMessage, stormStopDelay);
+		AnnoyanceHandlerFactory handlerFactory = new AnnoyanceHandlerFactory(getConfig());
+		
+		return Stream.of(handlerFactory.parseEntitiesHandler(), handlerFactory.parseStormsHandler())
+				.filter(Objects::nonNull) //null means the handler was disabled in the config
+				.collect(toList());
 	}
 }
