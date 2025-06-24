@@ -1,4 +1,4 @@
-package dte.comfortablelife.annoyancehandlers;
+package dte.comfortablelife.annoyancehandler;
 
 import static dte.comfortablelife.utils.ChatColorUtils.colorize;
 import static java.util.stream.Collectors.toList;
@@ -13,10 +13,6 @@ import dte.modernjavaplugin.ModernJavaPlugin;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
-
-import dte.comfortablelife.annoyancehandlers.AnnoyanceHandler;
-import dte.comfortablelife.annoyancehandlers.EntitiesHandler;
-import dte.comfortablelife.annoyancehandlers.StormsHandler;
 
 public class AnnoyanceHandlerProvider
 {

@@ -1,4 +1,4 @@
-package dte.comfortablelife.annoyancehandlers;
+package dte.comfortablelife.annoyancehandler;
 
 @FunctionalInterface
 public interface AnnoyanceHandler

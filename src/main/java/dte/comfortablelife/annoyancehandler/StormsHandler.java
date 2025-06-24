@@ -1,4 +1,4 @@
-package dte.comfortablelife.annoyancehandlers;
+package dte.comfortablelife.annoyancehandler;
 
 import dte.modernjavaplugin.ModernJavaPlugin;
 import org.bukkit.Bukkit;
