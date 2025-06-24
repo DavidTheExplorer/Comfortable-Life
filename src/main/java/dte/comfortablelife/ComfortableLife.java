@@ -1,13 +1,7 @@
 package dte.comfortablelife;
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
-
 import dte.comfortablelife.annoyancehandlers.AnnoyanceHandler;
-import dte.comfortablelife.annoyancehandlers.factory.AnnoyanceHandlerFactory;
+import dte.comfortablelife.annoyancehandlers.factory.AnnoyanceHandlerProvider;
 import dte.modernjavaplugin.ModernJavaPlugin;
 
 public class ComfortableLife extends ModernJavaPlugin
@@ -17,15 +11,13 @@ public class ComfortableLife extends ModernJavaPlugin
 	{
 		saveDefaultConfig();
 
-		parseActiveHandlers().forEach(AnnoyanceHandler::stop);
+		stopAnnoyances();
 	}
 
-	private List<AnnoyanceHandler> parseActiveHandlers()
+	private void stopAnnoyances()
 	{
-		AnnoyanceHandlerFactory handlerFactory = new AnnoyanceHandlerFactory(getConfig(), this);
-		
-		return Stream.of(handlerFactory.parseEntitiesHandler(), handlerFactory.parseStormsHandler())
-				.filter(Objects::nonNull) //null means the handler was disabled in the config
-				.collect(toList());
+		AnnoyanceHandlerProvider provider = new AnnoyanceHandlerProvider(getConfig(), this);
+
+		provider.getHandlers().forEach(AnnoyanceHandler::stop);
 	}
 }
