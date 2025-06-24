@@ -13,19 +13,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 
-import com.google.common.collect.Sets;
-
 public class EntitiesHandler implements AnnoyanceHandler
 {
 	private final Set<EntityType> blacklist;
 	private final ModernJavaPlugin plugin;
 
-	public EntitiesHandler(ModernJavaPlugin plugin, EntityType... blacklistedTypes)
+	public EntitiesHandler(Set<EntityType> blacklist, ModernJavaPlugin plugin)
 	{
+		this.blacklist = blacklist;
 		this.plugin = plugin;
-		this.blacklist = Sets.newHashSet(blacklistedTypes);
 	}
-	
+
 	@Override
 	public void stop()
 	{

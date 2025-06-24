@@ -2,11 +2,13 @@ package dte.comfortablelife.annoyancehandler;
 
 import static dte.comfortablelife.utils.ChatColorUtils.colorize;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 import static org.bukkit.ChatColor.RED;
 
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import dte.modernjavaplugin.ModernJavaPlugin;
@@ -37,7 +39,7 @@ public class AnnoyanceHandlerProvider
 		return getHandlerSection("entities")
 				.map(section ->
 				{
-					EntityType[] blacklistedEntities = section.getStringList("blacklist").stream()
+					Set<EntityType> blacklist = section.getStringList("blacklist").stream()
 							.map(typeName ->
 							{
 								try
@@ -51,9 +53,9 @@ public class AnnoyanceHandlerProvider
 								}
 							})
 							.filter(Objects::nonNull)
-							.toArray(EntityType[]::new);
+							.collect(toSet());
 
-					return new EntitiesHandler(this.plugin, blacklistedEntities);
+					return new EntitiesHandler(blacklist, this.plugin);
 				})
 				.orElse(null);
 	}
