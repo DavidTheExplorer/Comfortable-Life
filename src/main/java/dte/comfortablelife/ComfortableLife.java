@@ -21,7 +21,7 @@ public class ComfortableLife extends ModernJavaPlugin
 
 		saveDefaultConfig();
 
-		parseActiveHandlers().forEach(AnnoyanceHandler::stopAnnoyance);
+		parseActiveHandlers().forEach(AnnoyanceHandler::stop);
 	}
 
 	public static ComfortableLife getInstance() 

@@ -19,7 +19,7 @@ public class StormsHandler implements AnnoyanceHandler, Listener
 	}
 
 	@Override
-	public void stopAnnoyance()
+	public void stop()
 	{
 		stopCurrentStorms();
 

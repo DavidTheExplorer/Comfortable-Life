@@ -26,7 +26,7 @@ public class EntitiesHandler implements AnnoyanceHandler, Listener
 	}
 	
 	@Override
-	public void stopAnnoyance() 
+	public void stop()
 	{
 		Bukkit.getPluginManager().registerEvents(this, ComfortableLife.getInstance());
 	}
