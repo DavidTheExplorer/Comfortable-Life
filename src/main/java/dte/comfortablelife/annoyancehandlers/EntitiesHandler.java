@@ -15,7 +15,7 @@ import org.bukkit.event.world.ChunkLoadEvent;
 
 import com.google.common.collect.Sets;
 
-public class EntitiesHandler implements AnnoyanceHandler, Listener
+public class EntitiesHandler implements AnnoyanceHandler
 {
 	private final Set<EntityType> blacklist;
 	private final ModernJavaPlugin plugin;
@@ -29,22 +29,23 @@ public class EntitiesHandler implements AnnoyanceHandler, Listener
 	@Override
 	public void stop()
 	{
-		Bukkit.getPluginManager().registerEvents(this, this.plugin);
-	}
+		Bukkit.getPluginManager().registerEvents(new Listener()
+		{
+			@EventHandler(priority = EventPriority.HIGHEST)
+			public void preventSpawn(CreatureSpawnEvent event)
+			{
+				if(isBlacklisted(event.getEntity()))
+					event.setCancelled(true);
+			}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onEntitySpawn(CreatureSpawnEvent event) 
-	{
-		if(isBlacklisted(event.getEntity())) 
-			event.setCancelled(true);
-	}
-
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onChunkLoad(ChunkLoadEvent event) 
-	{
-		Arrays.stream(event.getChunk().getEntities())
-		.filter(this::isBlacklisted)
-		.forEach(Entity::remove);
+			@EventHandler(priority = EventPriority.HIGHEST)
+			public void despawnOffChunk(ChunkLoadEvent event)
+			{
+				Arrays.stream(event.getChunk().getEntities())
+						.filter(entity -> isBlacklisted(entity))
+						.forEach(Entity::remove);
+			}
+		}, this.plugin);
 	}
 
 	private boolean isBlacklisted(Entity entity) 

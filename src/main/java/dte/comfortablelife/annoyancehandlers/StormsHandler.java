@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-public class StormsHandler implements AnnoyanceHandler, Listener
+public class StormsHandler implements AnnoyanceHandler
 {
 	private final String globalMessage;
 	private final ModernJavaPlugin plugin;
@@ -23,20 +23,7 @@ public class StormsHandler implements AnnoyanceHandler, Listener
 	public void stop()
 	{
 		stopCurrentStorms();
-
-		//prevent future storms
-		Bukkit.getPluginManager().registerEvents(this, this.plugin);
-	}
-
-	@EventHandler
-	public void stopFutureRains(WeatherChangeEvent event) 
-	{
-		//the new weather has to be storm
-		if(!event.toWeatherState()) 
-			return;
-
-		event.setCancelled(true);
-		notifyPlayers(event.getWorld());
+		preventFutureStorms();
 	}
 	
 	private void stopCurrentStorms() 
@@ -46,9 +33,25 @@ public class StormsHandler implements AnnoyanceHandler, Listener
 		.forEach(world -> 
 		{
 			world.setStorm(false);
-			
 			notifyPlayers(world);
 		});
+	}
+
+	private void preventFutureStorms()
+	{
+		Bukkit.getPluginManager().registerEvents(new Listener()
+		{
+			@EventHandler
+			public void preventStorm(WeatherChangeEvent event)
+			{
+				//the new weather has to be storm
+				if(!event.toWeatherState())
+					return;
+
+				event.setCancelled(true);
+				notifyPlayers(event.getWorld());
+			}
+		}, this.plugin);
 	}
 	
 	private void notifyPlayers(World world) 
