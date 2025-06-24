@@ -1,4 +1,4 @@
-package dte.comfortablelife.annoyancehandlers.factory;
+package dte.comfortablelife.annoyancehandlers;
 
 import static dte.comfortablelife.utils.ChatColorUtils.colorize;
 import static java.util.stream.Collectors.toList;

@@ -1,7 +1,7 @@
 package dte.comfortablelife;
 
 import dte.comfortablelife.annoyancehandlers.AnnoyanceHandler;
-import dte.comfortablelife.annoyancehandlers.factory.AnnoyanceHandlerProvider;
+import dte.comfortablelife.annoyancehandlers.AnnoyanceHandlerProvider;
 import dte.modernjavaplugin.ModernJavaPlugin;
 
 public class ComfortableLife extends ModernJavaPlugin
