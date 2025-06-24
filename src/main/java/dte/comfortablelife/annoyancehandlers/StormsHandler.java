@@ -1,5 +1,6 @@
 package dte.comfortablelife.annoyancehandlers;
 
+import dte.modernjavaplugin.ModernJavaPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -7,15 +8,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-import dte.comfortablelife.ComfortableLife;
-
 public class StormsHandler implements AnnoyanceHandler, Listener
 {
-	private String globalMessage;
+	private final String globalMessage;
+	private final ModernJavaPlugin plugin;
 
-	public StormsHandler(String globalMessage)
+	public StormsHandler(String globalMessage, ModernJavaPlugin plugin)
 	{
 		this.globalMessage = globalMessage;
+		this.plugin = plugin;
 	}
 
 	@Override
@@ -24,7 +25,7 @@ public class StormsHandler implements AnnoyanceHandler, Listener
 		stopCurrentStorms();
 
 		//prevent future storms
-		Bukkit.getPluginManager().registerEvents(this, ComfortableLife.getInstance());
+		Bukkit.getPluginManager().registerEvents(this, this.plugin);
 	}
 
 	@EventHandler

@@ -3,6 +3,7 @@ package dte.comfortablelife.annoyancehandlers;
 import java.util.Arrays;
 import java.util.Set;
 
+import dte.modernjavaplugin.ModernJavaPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -14,21 +15,21 @@ import org.bukkit.event.world.ChunkLoadEvent;
 
 import com.google.common.collect.Sets;
 
-import dte.comfortablelife.ComfortableLife;
-
 public class EntitiesHandler implements AnnoyanceHandler, Listener
 {
 	private final Set<EntityType> blacklist;
+	private final ModernJavaPlugin plugin;
 
-	public EntitiesHandler(EntityType... blacklistedTypes)
+	public EntitiesHandler(ModernJavaPlugin plugin, EntityType... blacklistedTypes)
 	{
+		this.plugin = plugin;
 		this.blacklist = Sets.newHashSet(blacklistedTypes);
 	}
 	
 	@Override
 	public void stop()
 	{
-		Bukkit.getPluginManager().registerEvents(this, ComfortableLife.getInstance());
+		Bukkit.getPluginManager().registerEvents(this, this.plugin);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)

@@ -5,11 +5,11 @@ import static org.bukkit.ChatColor.RED;
 
 import java.util.Objects;
 
+import dte.modernjavaplugin.ModernJavaPlugin;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
 
-import dte.comfortablelife.ComfortableLife;
 import dte.comfortablelife.annoyancehandlers.AnnoyanceHandler;
 import dte.comfortablelife.annoyancehandlers.EntitiesHandler;
 import dte.comfortablelife.annoyancehandlers.StormsHandler;
@@ -17,13 +17,15 @@ import dte.comfortablelife.annoyancehandlers.StormsHandler;
 public class AnnoyanceHandlerFactory 
 {
 	private final Configuration config;
+	private final ModernJavaPlugin plugin;
 
-	public AnnoyanceHandlerFactory(Configuration config) 
+	public AnnoyanceHandlerFactory(Configuration config, ModernJavaPlugin plugin)
 	{
 		this.config = config;
+		this.plugin = plugin;
 	}
-	
-	public AnnoyanceHandler parseEntitiesHandler() 
+
+	public AnnoyanceHandler parseEntitiesHandler()
 	{
 		ConfigurationSection section = getHandlerSection("entities");
 		
@@ -40,14 +42,14 @@ public class AnnoyanceHandlerFactory
 					}
 					catch(IllegalArgumentException exception)
 					{
-						ComfortableLife.getInstance().logToConsole(RED + String.format("Couldn't blacklist \"%s\" because such mob doesn't exist!", typeName));
+						this.plugin.logToConsole(RED + String.format("Couldn't blacklist \"%s\" because such mob doesn't exist!", typeName));
 						return null;
 					}
 				})
 				.filter(Objects::nonNull)
 				.toArray(EntityType[]::new);
 
-		return new EntitiesHandler(blacklistedEntities);
+		return new EntitiesHandler(this.plugin, blacklistedEntities);
 	}
 
 	public AnnoyanceHandler parseStormsHandler() 
@@ -63,7 +65,7 @@ public class AnnoyanceHandlerFactory
 		if(globalMessage.isEmpty())
 			globalMessage = null;
 
-		return new StormsHandler(globalMessage);
+		return new StormsHandler(globalMessage, this.plugin);
 	}
 	
 	private ConfigurationSection getHandlerSection(String handlerName) 
