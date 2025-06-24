@@ -9,11 +9,11 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 
 import dte.comfortablelife.ComfortableLife;
 
-public class AnnoyingStormsHandler implements AnnoyanceHandler, Listener
+public class StormsHandler implements AnnoyanceHandler, Listener
 {
 	private String globalMessage;
 
-	public AnnoyingStormsHandler(String globalMessage) 
+	public StormsHandler(String globalMessage)
 	{
 		this.globalMessage = globalMessage;
 	}

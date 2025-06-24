@@ -16,11 +16,11 @@ import com.google.common.collect.Sets;
 
 import dte.comfortablelife.ComfortableLife;
 
-public class AnnoyingEntitiesHandler implements AnnoyanceHandler, Listener
+public class EntitiesHandler implements AnnoyanceHandler, Listener
 {
 	private final Set<EntityType> blacklist;
 
-	public AnnoyingEntitiesHandler(EntityType... blacklistedTypes) 
+	public EntitiesHandler(EntityType... blacklistedTypes)
 	{
 		this.blacklist = Sets.newHashSet(blacklistedTypes);
 	}

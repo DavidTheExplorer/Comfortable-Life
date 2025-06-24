@@ -11,8 +11,8 @@ import org.bukkit.entity.EntityType;
 
 import dte.comfortablelife.ComfortableLife;
 import dte.comfortablelife.annoyancehandlers.AnnoyanceHandler;
-import dte.comfortablelife.annoyancehandlers.AnnoyingEntitiesHandler;
-import dte.comfortablelife.annoyancehandlers.AnnoyingStormsHandler;
+import dte.comfortablelife.annoyancehandlers.EntitiesHandler;
+import dte.comfortablelife.annoyancehandlers.StormsHandler;
 
 public class AnnoyanceHandlerFactory 
 {
@@ -47,7 +47,7 @@ public class AnnoyanceHandlerFactory
 				.filter(Objects::nonNull)
 				.toArray(EntityType[]::new);
 
-		return new AnnoyingEntitiesHandler(blacklistedEntities);
+		return new EntitiesHandler(blacklistedEntities);
 	}
 
 	public AnnoyanceHandler parseStormsHandler() 
@@ -63,7 +63,7 @@ public class AnnoyanceHandlerFactory
 		if(globalMessage.isEmpty())
 			globalMessage = null;
 
-		return new AnnoyingStormsHandler(globalMessage);
+		return new StormsHandler(globalMessage);
 	}
 	
 	private ConfigurationSection getHandlerSection(String handlerName) 
