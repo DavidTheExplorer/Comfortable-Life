@@ -1,6 +1,7 @@
 package dte.comfortablelife.annoyancehandler;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ public class EntityBlacklistHandler implements AnnoyanceHandler
 
 	public EntityBlacklistHandler(Set<EntityType> blacklist, ModernJavaPlugin plugin)
 	{
-		this.blacklist = blacklist;
+		this.blacklist = EnumSet.copyOf(blacklist);
 		this.plugin = plugin;
 	}
 
