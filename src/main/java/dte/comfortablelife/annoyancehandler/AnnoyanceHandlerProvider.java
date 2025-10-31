@@ -1,6 +1,5 @@
 package dte.comfortablelife.annoyancehandler;
 
-import static dte.comfortablelife.utils.ChatColorUtils.colorize;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.bukkit.ChatColor.RED;
@@ -36,7 +35,7 @@ public class AnnoyanceHandlerProvider
 
 	private AnnoyanceHandler parseEntitiesHandler()
 	{
-		return getHandlerSection("entities")
+		return getActiveHandlerSection("entities")
 				.map(section ->
 				{
 					Set<EntityType> blacklist = section.getStringList("blacklist").stream()
@@ -62,20 +61,12 @@ public class AnnoyanceHandlerProvider
 
 	private AnnoyanceHandler parseStormsHandler()
 	{
-		return getHandlerSection("storms")
-				.map(section ->
-				{
-					String globalMessage = colorize(section.getString("global-message"));
-
-					if(globalMessage.isEmpty())
-						globalMessage = null;
-
-					return new StormsHandler(globalMessage, this.plugin);
-				})
+		return getActiveHandlerSection("storms")
+				.map(unused -> new StormsHandler(this.plugin))
 				.orElse(null);
 	}
 	
-	private Optional<ConfigurationSection> getHandlerSection(String handlerName)
+	private Optional<ConfigurationSection> getActiveHandlerSection(String handlerName)
 	{
 		ConfigurationSection section = this.config.getConfigurationSection("handlers." + handlerName);
 		
