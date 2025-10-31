@@ -34,10 +34,10 @@ public class ComfortableLife extends ModernJavaPlugin
 
     private Optional<AnnoyanceHandler> parseEntityBlacklistHandler()
     {
-        return getActiveHandlerSection("entity")
+        return getActiveHandlerSection("entity-blacklist")
                 .map(section ->
                 {
-                    Set<EntityType> blacklist = section.getStringList("blacklist").stream()
+                    Set<EntityType> blacklist = section.getStringList("list").stream()
                             .map(typeName ->
                             {
                                 try

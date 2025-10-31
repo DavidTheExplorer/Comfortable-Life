@@ -1,7 +1,7 @@
 handlers:
-    entity:
+    entity-blacklist:
         active: true
-        blacklist: 
+        list:
             - Wandering Trader
             - Llama
             - Phantom
