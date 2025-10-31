@@ -13,7 +13,7 @@
 	</properties>
 
 	<build>
-		<finalName>ComfortableLife ${project.version}</finalName>
+		<finalName>ComfortableLife-${project.version}</finalName>
 
 		<plugins>
 			<plugin>
