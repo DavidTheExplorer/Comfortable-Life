@@ -3,9 +3,9 @@ package dte.comfortablelife;
 import dte.comfortablelife.annoyancestopper.AnnoyanceStopper;
 import dte.comfortablelife.annoyancestopper.EntityBlacklistStopper;
 import dte.comfortablelife.annoyancestopper.StormStopper;
-import dte.modernjavaplugin.ModernJavaPlugin;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -13,9 +13,8 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toSet;
-import static org.bukkit.ChatColor.RED;
 
-public class ComfortableLife extends ModernJavaPlugin
+public class ComfortableLife extends JavaPlugin
 {
 	@Override
 	public void onEnable()
@@ -46,7 +45,7 @@ public class ComfortableLife extends ModernJavaPlugin
                                 }
                                 catch(IllegalArgumentException exception)
                                 {
-                                    logToConsole(RED + String.format("Couldn't blacklist \"%s\" because such mob doesn't exist!", typeName));
+                                    getLogger().severe(String.format("Couldn't blacklist \"%s\" because such mob doesn't exist!", typeName));
                                     return null;
                                 }
                             })

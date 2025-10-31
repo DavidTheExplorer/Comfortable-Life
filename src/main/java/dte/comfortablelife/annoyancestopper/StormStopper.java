@@ -1,17 +1,17 @@
 package dte.comfortablelife.annoyancestopper;
 
-import dte.modernjavaplugin.ModernJavaPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.WeatherChangeEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class StormStopper implements AnnoyanceStopper
 {
-	private final ModernJavaPlugin plugin;
+	private final JavaPlugin plugin;
 
-	public StormStopper(ModernJavaPlugin plugin)
+	public StormStopper(JavaPlugin plugin)
 	{
 		this.plugin = plugin;
 	}

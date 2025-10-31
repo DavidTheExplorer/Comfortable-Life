@@ -5,20 +5,20 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-import dte.modernjavaplugin.ModernJavaPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import static java.util.stream.Collectors.toList;
 
 public class EntityBlacklistStopper implements AnnoyanceStopper
 {
 	private final Set<EntityType> blacklist;
-	private final ModernJavaPlugin plugin;
+	private final JavaPlugin plugin;
 
-	public EntityBlacklistStopper(Set<EntityType> blacklist, ModernJavaPlugin plugin)
+	public EntityBlacklistStopper(Set<EntityType> blacklist, JavaPlugin plugin)
 	{
 		this.blacklist = EnumSet.copyOf(blacklist);
 		this.plugin = plugin;
