@@ -10,7 +10,6 @@ public class ComfortableLife extends ModernJavaPlugin
 	public void onEnable()
 	{
 		saveDefaultConfig();
-
 		stopAnnoyances();
 	}
 
