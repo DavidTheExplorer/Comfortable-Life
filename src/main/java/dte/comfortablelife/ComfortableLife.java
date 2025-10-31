@@ -45,7 +45,7 @@ public class ComfortableLife extends JavaPlugin
                                 }
                                 catch(IllegalArgumentException exception)
                                 {
-                                    getLogger().severe(String.format("Couldn't blacklist \"%s\" because such mob doesn't exist!", typeName));
+                                    getLogger().severe(String.format("Couldn't blacklist \"%s\" because no such mob exists, it will just be skipped.", typeName));
                                     return null;
                                 }
                             })
