@@ -1,4 +1,4 @@
-package dte.comfortablelife.annoyancehandler;
+package dte.comfortablelife.annoyancestopper;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -13,12 +13,12 @@ import org.bukkit.entity.EntityType;
 
 import static java.util.stream.Collectors.toList;
 
-public class EntityBlacklistHandler implements AnnoyanceHandler
+public class EntityBlacklistStopper implements AnnoyanceStopper
 {
 	private final Set<EntityType> blacklist;
 	private final ModernJavaPlugin plugin;
 
-	public EntityBlacklistHandler(Set<EntityType> blacklist, ModernJavaPlugin plugin)
+	public EntityBlacklistStopper(Set<EntityType> blacklist, ModernJavaPlugin plugin)
 	{
 		this.blacklist = EnumSet.copyOf(blacklist);
 		this.plugin = plugin;

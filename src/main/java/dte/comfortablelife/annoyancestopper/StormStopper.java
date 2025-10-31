@@ -1,4 +1,4 @@
-package dte.comfortablelife.annoyancehandler;
+package dte.comfortablelife.annoyancestopper;
 
 import dte.modernjavaplugin.ModernJavaPlugin;
 import org.bukkit.Bukkit;
@@ -7,11 +7,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-public class StormHandler implements AnnoyanceHandler
+public class StormStopper implements AnnoyanceStopper
 {
 	private final ModernJavaPlugin plugin;
 
-	public StormHandler(ModernJavaPlugin plugin)
+	public StormStopper(ModernJavaPlugin plugin)
 	{
 		this.plugin = plugin;
 	}

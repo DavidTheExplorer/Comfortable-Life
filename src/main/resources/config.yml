@@ -1,4 +1,4 @@
-handlers:
+stoppers:
     entity-blacklist:
         active: true
         list:

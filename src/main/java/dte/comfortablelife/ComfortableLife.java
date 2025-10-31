@@ -1,8 +1,8 @@
 package dte.comfortablelife;
 
-import dte.comfortablelife.annoyancehandler.AnnoyanceHandler;
-import dte.comfortablelife.annoyancehandler.EntityBlacklistHandler;
-import dte.comfortablelife.annoyancehandler.StormHandler;
+import dte.comfortablelife.annoyancestopper.AnnoyanceStopper;
+import dte.comfortablelife.annoyancestopper.EntityBlacklistStopper;
+import dte.comfortablelife.annoyancestopper.StormStopper;
 import dte.modernjavaplugin.ModernJavaPlugin;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
@@ -21,20 +21,20 @@ public class ComfortableLife extends ModernJavaPlugin
 	public void onEnable()
 	{
 		saveDefaultConfig();
-        handleAnnoyances();
+        stopAnnoyances();
 	}
 
-    private void handleAnnoyances()
+    private void stopAnnoyances()
     {
-        Stream.of(parseEntityBlacklistHandler(), parseStormHandler())
-                .filter(Optional::isPresent) //empty optional means the handler was disabled in the config
+        Stream.of(parseEntityBlacklistStopper(), parseStormStopper())
+                .filter(Optional::isPresent) //empty optional means the stopper was disabled in the config
                 .map(Optional::get)
-                .forEach(AnnoyanceHandler::stop);
+                .forEach(AnnoyanceStopper::stop);
     }
 
-    private Optional<AnnoyanceHandler> parseEntityBlacklistHandler()
+    private Optional<AnnoyanceStopper> parseEntityBlacklistStopper()
     {
-        return getActiveHandlerSection("entity-blacklist")
+        return getActiveStopperSection("entity-blacklist")
                 .map(section ->
                 {
                     Set<EntityType> blacklist = section.getStringList("list").stream()
@@ -53,21 +53,21 @@ public class ComfortableLife extends ModernJavaPlugin
                             .filter(Objects::nonNull)
                             .collect(toSet());
 
-                    return new EntityBlacklistHandler(blacklist, this);
+                    return new EntityBlacklistStopper(blacklist, this);
                 });
     }
 
-    private Optional<AnnoyanceHandler> parseStormHandler()
+    private Optional<AnnoyanceStopper> parseStormStopper()
     {
-        return getActiveHandlerSection("storm")
-                .map(unused -> new StormHandler(this));
+        return getActiveStopperSection("storm")
+                .map(unused -> new StormStopper(this));
     }
 
-    private Optional<ConfigurationSection> getActiveHandlerSection(String handlerName)
+    private Optional<ConfigurationSection> getActiveStopperSection(String name)
     {
-        ConfigurationSection section = getConfig().getConfigurationSection("handlers." + handlerName);
+        ConfigurationSection section = getConfig().getConfigurationSection("stoppers." + name);
 
-        //return null if the handler is disabled
+        //return null if the stopper is disabled
         if(!section.getBoolean("active"))
             return Optional.empty();
 
