@@ -12,12 +12,12 @@ import org.bukkit.entity.EntityType;
 
 import static java.util.stream.Collectors.toList;
 
-public class EntitiesHandler implements AnnoyanceHandler
+public class EntityBlacklistHandler implements AnnoyanceHandler
 {
 	private final Set<EntityType> blacklist;
 	private final ModernJavaPlugin plugin;
 
-	public EntitiesHandler(Set<EntityType> blacklist, ModernJavaPlugin plugin)
+	public EntityBlacklistHandler(Set<EntityType> blacklist, ModernJavaPlugin plugin)
 	{
 		this.blacklist = blacklist;
 		this.plugin = plugin;

@@ -1,10 +1,10 @@
 handlers:
-    entities:
+    entity:
         active: true
         blacklist: 
             - Wandering Trader
             - Llama
             - Phantom
             - Slime
-    storms:
+    storm:
         active: true

@@ -7,11 +7,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.WeatherChangeEvent;
 
-public class StormsHandler implements AnnoyanceHandler
+public class StormHandler implements AnnoyanceHandler
 {
 	private final ModernJavaPlugin plugin;
 
-	public StormsHandler(ModernJavaPlugin plugin)
+	public StormHandler(ModernJavaPlugin plugin)
 	{
 		this.plugin = plugin;
 	}

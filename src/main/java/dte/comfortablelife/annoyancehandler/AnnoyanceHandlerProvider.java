@@ -28,14 +28,14 @@ public class AnnoyanceHandlerProvider
 
 	public Collection<AnnoyanceHandler> getHandlers()
 	{
-		return Stream.of(parseEntitiesHandler(), parseStormsHandler())
+		return Stream.of(parseEntityBlacklistHandler(), parseStormHandler())
 				.filter(Objects::nonNull) //null means the handler was disabled in the config
 				.collect(toList());
 	}
 
-	private AnnoyanceHandler parseEntitiesHandler()
+	private AnnoyanceHandler parseEntityBlacklistHandler()
 	{
-		return getActiveHandlerSection("entities")
+		return getActiveHandlerSection("entity")
 				.map(section ->
 				{
 					Set<EntityType> blacklist = section.getStringList("blacklist").stream()
@@ -54,15 +54,15 @@ public class AnnoyanceHandlerProvider
 							.filter(Objects::nonNull)
 							.collect(toSet());
 
-					return new EntitiesHandler(blacklist, this.plugin);
+					return new EntityBlacklistHandler(blacklist, this.plugin);
 				})
 				.orElse(null);
 	}
 
-	private AnnoyanceHandler parseStormsHandler()
+	private AnnoyanceHandler parseStormHandler()
 	{
-		return getActiveHandlerSection("storms")
-				.map(unused -> new StormsHandler(this.plugin))
+		return getActiveHandlerSection("storm")
+				.map(unused -> new StormHandler(this.plugin))
 				.orElse(null);
 	}
 	
