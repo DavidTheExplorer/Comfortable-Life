@@ -5,6 +5,7 @@ handlers:
             - Wandering Trader
             - Llama
             - Phantom
+            - Slime
     storms:
         active: true
         global-message: ""
